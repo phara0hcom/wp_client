@@ -1,0 +1,4 @@
+export const LOGIN_SET_TOKEN = "LOGIN_SET_TOKEN";
+export const LOGIN_AUTHORIZE = "LOGIN_AUTHORIZE";
+export const LOGIN_SET_AUTH = "LOGIN_SET_AUTH";
+export const LOGIN_LOGOUT = "LOGIN_LOGOUT";

@@ -1,26 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
+import { connect } from "react-redux";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Login from "./containers/Login";
+
+import "./App.css";
+import { getToken } from "./store/actions/login";
+
+class App extends Component {
+  componentDidMount() {
+    this.props.getToken();
+  }
+  render() {
+    const isAuthorized = false;
+    return (
+      <Router>
+        <>
+          <Switch>
+            <Route path="/login">
+              <Login />
+            </Route>
+            {!isAuthorized ? <Redirect to="/login" /> : null
+            // <Route path="/users">
+            //   <Users />
+            // </Route>
+            }
+          </Switch>
+        </>
+      </Router>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  loadingToken: state.login.loadingToken,
+  isAuthorized: state.login.isAuthorized,
+  userType: state.login.userType,
+  displayName: state.login.displayName
+});
+
+const mapDispatchToProps = dispatch => ({
+  getToken: () => dispatch(getToken())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
