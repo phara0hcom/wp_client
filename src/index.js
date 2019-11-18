@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { withStyles } from "@material-ui/core/styles";
 import "./index.css";
 
 import store from "./store/";
@@ -8,9 +9,21 @@ import * as serviceWorker from "./serviceWorker";
 
 import App from "./App";
 
+const styles = theme => ({
+  "@global": {
+    // MUI typography elements use REMs, so you can scale the global
+    // font size by setting the font-size on the <html> element.
+    html: {
+      fontSize: "1em"
+    }
+  }
+});
+
+const Main = withStyles(styles)(App);
+
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Main />
   </Provider>,
   document.getElementById("root")
 );

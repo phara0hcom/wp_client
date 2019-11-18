@@ -17,20 +17,24 @@ class App extends Component {
     this.props.getToken();
   }
   render() {
-    const isAuthorized = false;
     return (
       <Router>
         <>
-          <Switch>
-            <Route path="/login">
-              <Login />
-            </Route>
-            {!isAuthorized ? <Redirect to="/login" /> : null
-            // <Route path="/users">
-            //   <Users />
-            // </Route>
-            }
-          </Switch>
+          {/* add navbar */}
+          {this.props.loadingToken ? (
+            <div className="loading" />
+          ) : (
+            <Switch>
+              <Route path="/login">
+                <Login />
+              </Route>
+              {!this.props.isAuthorized ? <Redirect to="/login" /> : null
+              // <Route path="/users">
+              //   <Users />
+              // </Route>
+              }
+            </Switch>
+          )}
         </>
       </Router>
     );
