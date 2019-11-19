@@ -11,6 +11,7 @@ import Login from "./containers/Login";
 
 import "./App.css";
 import { getToken } from "./store/actions/login";
+import AdminPanel from "./containers/adminPanel/AdminPanel";
 
 class App extends Component {
   componentDidMount() {
@@ -28,11 +29,13 @@ class App extends Component {
               <Route path="/login">
                 <Login />
               </Route>
-              {!this.props.isAuthorized ? <Redirect to="/login" /> : null
-              // <Route path="/users">
-              //   <Users />
-              // </Route>
-              }
+              {!this.props.isAuthorized ? (
+                <Redirect to="/login" />
+              ) : (
+                <Route path="/adminPanel">
+                  <AdminPanel />
+                </Route>
+              )}
             </Switch>
           )}
         </>

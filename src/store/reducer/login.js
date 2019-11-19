@@ -26,6 +26,14 @@ const setLoginError = (state, error) => ({
   logInProcessing: false
 });
 
+const loginUser = (state, user) => ({
+  ...state,
+  user: { ...user },
+  isAuthorized: true,
+  userType: user.type,
+  logInProcessing: false
+});
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOGIN_NO_TOKEN:
@@ -36,6 +44,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.LOGIN_ERROR:
       return setLoginError(state, action.error);
+
+    case actionTypes.LOGIN_AUTHORIZE:
+      return loginUser(state, action.user);
 
     default:
       return state;

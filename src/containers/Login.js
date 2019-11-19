@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -8,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import cssClasses from "./Login.module.css";
 import { Button } from "@material-ui/core";
 import { loginUser } from "../store/actions/login";
+import { userTypes } from "../shared/constants";
 
 const Login = props => {
   const [state, setState] = useState({
@@ -23,9 +25,14 @@ const Login = props => {
   };
 
   const submitLogin = () => {
-    console.log(state);
     props.onLoginUser(state.email, state.password);
   };
+
+  if (props.isAuthorized && props.userType === userTypes.admin) {
+    return <Redirect to="/adminPanel" />;
+  } else if (props.isAuthorized) {
+    return <Redirect to="/" />;
+  }
   return (
     <div className="wrapper">
       <Paper className={cssClasses.paper}>
