@@ -1,3 +1,17 @@
 .wrapper {
+  padding: 1rem 3rem;
+}
+
+.paper {
+  max-width: 50rem;
   padding: 3rem;
+  margin: 0 auto;
+}
+
+.error {
+  color: red;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.8rem;
+  height: 0.8rem;
 }

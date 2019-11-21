@@ -8,8 +8,8 @@ import Grid from "@material-ui/core/Grid";
 
 import cssClasses from "./Login.module.css";
 import { Button } from "@material-ui/core";
-import { loginUser } from "../store/actions/login";
-import { userTypes } from "../shared/constants";
+import { loginUser } from "../../store/actions/login";
+import { userTypes } from "../../shared/constants";
 
 const Login = props => {
   const [state, setState] = useState({
@@ -24,7 +24,8 @@ const Login = props => {
     });
   };
 
-  const submitLogin = () => {
+  const submitLogin = event => {
+    event.preventDefault();
     props.onLoginUser(state.email, state.password);
   };
 
@@ -35,7 +36,7 @@ const Login = props => {
   }
   return (
     <div className="wrapper">
-      <Paper className={cssClasses.paper}>
+      <Paper className="paper">
         <Grid
           container
           direction="column"
@@ -45,13 +46,15 @@ const Login = props => {
           <Typography variant="h5" component="h3">
             Please login.
           </Typography>
-          <div className={cssClasses.error}>{props.error}</div>
-          <div className={cssClasses.inputs}>
+          <div className="error">{props.error}</div>
+          <form className={cssClasses.inputs} onSubmit={submitLogin}>
             <TextField
               id="standard-emailAddress-input"
               label="email address"
               value={state.email}
+              disabled={props.logInProcessing}
               placeholder="name@domain.com"
+              required
               onChange={changeInput("email")}
               className={cssClasses.input}
               margin="normal"
@@ -61,17 +64,21 @@ const Login = props => {
               label="Password"
               value={state.password}
               type="password"
+              disabled={props.logInProcessing}
+              required
               className={cssClasses.input}
               autoComplete="current-password"
               onChange={changeInput("password")}
               margin="normal"
             />
-          </div>
+          </form>
+          {props.logInProcessing ? <div className="localLoading" /> : null}
           <Button
             variant="contained"
             color="primary"
             disabled={props.logInProcessing}
             className={cssClasses.button}
+            type="submit"
             onClick={submitLogin}
           >
             Login

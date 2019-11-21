@@ -1,0 +1,19 @@
+.inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.ButtonRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.ButtonRow button.button {
+  margin-right: 0.5rem;
+}
+
+button.buttonSubmit {
+  align-self: flex-end;
+  margin-top: 1rem;
+}

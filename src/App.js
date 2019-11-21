@@ -7,11 +7,13 @@ import {
 } from "react-router-dom";
 import { connect } from "react-redux";
 
-import Login from "./containers/Login";
+import Login from "./containers/login/Login";
+import AdminRoutes from "./routes/adminRoutes";
+import UserRoutes from "./routes/userRoutes";
+
+import { getToken } from "./store/actions/login";
 
 import "./App.css";
-import { getToken } from "./store/actions/login";
-import AdminPanel from "./containers/adminPanel/AdminPanel";
 
 class App extends Component {
   componentDidMount() {
@@ -31,10 +33,10 @@ class App extends Component {
               </Route>
               {!this.props.isAuthorized ? (
                 <Redirect to="/login" />
+              ) : this.props.userType === "admin" ? (
+                <AdminRoutes />
               ) : (
-                <Route path="/adminPanel">
-                  <AdminPanel />
-                </Route>
+                <UserRoutes />
               )}
             </Switch>
           )}

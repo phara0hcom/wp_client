@@ -6,7 +6,8 @@ const initialState = {
   displayName: null,
   isAuthorized: false,
   logInProcessing: false,
-  error: null
+  error: null,
+  user: {}
 };
 
 const setNoToken = state => ({
@@ -31,7 +32,8 @@ const loginUser = (state, user) => ({
   user: { ...user },
   isAuthorized: true,
   userType: user.type,
-  logInProcessing: false
+  logInProcessing: false,
+  loadingToken: false
 });
 
 const reducer = (state = initialState, action) => {

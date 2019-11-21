@@ -8,11 +8,11 @@ import gql from "graphql-tag";
  *
  * @returns {Promise}
  */
-export const listUsers = (maxUsers = 1000, nextPageToken = null) => {
+export const listUsers = (maxUsers = 1000) => {
   return client.query({
     query: gql`
-      query($maxUsers: Int!, $nextPageToken: String) {
-        listUsers(max: $maxUsers, nextPageToken: $nextPageToken) {
+      query($maxUsers: Int!) {
+        listUsers(max: $maxUsers) {
           users {
             email
             uid
@@ -25,7 +25,7 @@ export const listUsers = (maxUsers = 1000, nextPageToken = null) => {
         }
       }
     `,
-    variables: { maxUsers, nextPageToken }
+    variables: { maxUsers }
   });
 };
 
@@ -55,12 +55,18 @@ export const queryUserDb = (column, compare, value) => {
   });
 };
 
+/**
+ *
+ * @param {String} token token receiver after login and stored in a cookie
+ *
+ * @returns {Promise}
+ */
 export const authToken = token => {
   return client.query({
     query: gql`
-      query($token: String!) {
+      query($token: ID!) {
         authToken(token: $token) {
-          users {
+          user {
             email
             uid
             phoneNumber
@@ -73,5 +79,52 @@ export const authToken = token => {
       }
     `,
     variables: { token }
+  });
+};
+
+/**
+ *
+ * @param {string} uid uniqueId from the Auth db
+ *
+ * @returns {Promise}
+ */
+export const getUser = uid => {
+  return client.query({
+    query: gql`
+      query($uid: ID!) {
+        getUser(uid: $uid) {
+          user {
+            email
+            uid
+            phoneNumber
+            displayName
+            type
+          }
+          message
+          success
+        }
+      }
+    `,
+    variables: { uid }
+  });
+};
+
+/**
+ *
+ * @param {String} email
+ *
+ * @returns {Promise} {date: {sendReset: success {Boolean}, message: {string} }}
+ */
+export const resetUserPassword = email => {
+  return client.query({
+    query: gql`
+      query($email: String!) {
+        sendReset(email: $email) {
+          message
+          success
+        }
+      }
+    `,
+    variables: { email }
   });
 };

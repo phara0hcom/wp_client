@@ -12,14 +12,18 @@ const client = new ApolloClient({
   // Provide required constructor fields
   cache: cache,
   link: link,
-
   // Provide some optional constructor fields
   name: "react-web-client",
   version: "1.3",
   queryDeduplication: false,
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: "cache-and-network"
+      fetchPolicy: "no-cache",
+      errorPolicy: "ignore"
+    },
+    query: {
+      fetchPolicy: "no-cache",
+      errorPolicy: "all"
     }
   }
 });
