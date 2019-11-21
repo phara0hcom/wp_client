@@ -76,8 +76,9 @@ class UserEditor extends Component {
   };
 
   changeInput = input => event => {
+    const value = event.target.value;
     this.setState(prevState => ({
-      userToEdit: { ...prevState.userToEdit, [input]: event.target.value }
+      userToEdit: { ...prevState.userToEdit, [input]: value }
     }));
   };
 
@@ -132,7 +133,7 @@ class UserEditor extends Component {
           }
         })
         .catch(err => {
-          this.setState({ error: err });
+          this.setState({ error: `${err}` });
         });
     }
   };
@@ -237,17 +238,19 @@ class UserEditor extends Component {
               {!this.uid ||
               (this.uid && this.uid === this.state.userToEdit.uid) ? (
                 <div className={cssClasses.ButtonRow}>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    disabled={this.state.inProgress}
-                    className={cssClasses.button}
-                    type="submit"
-                    onClick={this.onDeleteUser}
-                    startIcon={<DeleteIcon />}
-                  >
-                    Delete User
-                  </Button>
+                  {this.props.user.type === userTypes.admin ? (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      disabled={this.state.inProgress}
+                      className={cssClasses.button}
+                      type="submit"
+                      onClick={this.onDeleteUser}
+                      startIcon={<DeleteIcon />}
+                    >
+                      Delete User
+                    </Button>
+                  ) : null}
                   <Button
                     variant="contained"
                     color="default"
@@ -268,25 +271,27 @@ class UserEditor extends Component {
           {!this.uid || (this.uid && this.uid === this.state.userToEdit.uid) ? (
             <form onSubmit={this.submitForm}>
               <div className={cssClasses.inputs}>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">Type</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    disabled={this.state.inProgress}
-                    value={userToEdit.type || "user"}
-                    onChange={this.changeInput("type")}
-                  >
-                    {Object.keys(userTypes).map((key, index) => (
-                      <MenuItem
-                        key={`menuUserType${key}${index}`}
-                        value={userTypes[key]}
-                      >
-                        {userTypes[key]}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                {this.props.user.type === userTypes.admin ? (
+                  <FormControl>
+                    <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      disabled={this.state.inProgress}
+                      value={userToEdit.type || "user"}
+                      onChange={this.changeInput("type")}
+                    >
+                      {Object.keys(userTypes).map((key, index) => (
+                        <MenuItem
+                          key={`menuUserType${key}${index}`}
+                          value={userTypes[key]}
+                        >
+                          {userTypes[key]}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                ) : null}
                 <TextField
                   id="standard-emailAddress-input"
                   label="email address"
@@ -298,19 +303,20 @@ class UserEditor extends Component {
                   className={cssClasses.input}
                   margin="normal"
                 />
-
-                <TextField
-                  id="standard-password-input"
-                  label="Password"
-                  value={userToEdit.password || ""}
-                  type="password"
-                  required
-                  disabled={this.state.inProgress}
-                  className={cssClasses.input}
-                  autoComplete="current-password"
-                  onChange={this.changeInput("password")}
-                  margin="normal"
-                />
+                {this.props.user.type === userTypes.admin ? (
+                  <TextField
+                    id="standard-password-input"
+                    label="Password"
+                    value={userToEdit.password || ""}
+                    type="password"
+                    required
+                    disabled={this.state.inProgress}
+                    className={cssClasses.input}
+                    autoComplete="current-password"
+                    onChange={this.changeInput("password")}
+                    margin="normal"
+                  />
+                ) : null}
 
                 <TextField
                   id="standard-displayName-input"

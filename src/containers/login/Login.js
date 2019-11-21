@@ -9,7 +9,6 @@ import Grid from "@material-ui/core/Grid";
 import cssClasses from "./Login.module.css";
 import { Button } from "@material-ui/core";
 import { loginUser } from "../../store/actions/login";
-import { userTypes } from "../../shared/constants";
 
 const Login = props => {
   const [state, setState] = useState({
@@ -29,9 +28,7 @@ const Login = props => {
     props.onLoginUser(state.email, state.password);
   };
 
-  if (props.isAuthorized && props.userType === userTypes.admin) {
-    return <Redirect to="/adminPanel" />;
-  } else if (props.isAuthorized) {
+  if (props.isAuthorized) {
     return <Redirect to="/" />;
   }
   return (
@@ -72,7 +69,7 @@ const Login = props => {
               margin="normal"
             />
           </form>
-          {props.logInProcessing ? <div className="localLoading" /> : null}
+
           <Button
             variant="contained"
             color="primary"
@@ -81,7 +78,7 @@ const Login = props => {
             type="submit"
             onClick={submitLogin}
           >
-            Login
+            {props.logInProcessing ? <div className="localLoading" /> : `Login`}
           </Button>
         </Grid>
       </Paper>

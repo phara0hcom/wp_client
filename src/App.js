@@ -23,7 +23,6 @@ class App extends Component {
     return (
       <Router>
         <>
-          {/* add navbar */}
           {this.props.loadingToken ? (
             <div className="loading" />
           ) : (
@@ -38,6 +37,7 @@ class App extends Component {
               ) : (
                 <UserRoutes />
               )}
+              <Redirect to="/" />
             </Switch>
           )}
         </>
