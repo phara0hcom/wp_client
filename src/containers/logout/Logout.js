@@ -17,12 +17,9 @@ const Logout = () => {
         .then(() => {
           setCookie("loginToken", "", 0);
           setState({ loggedOut: true, logOutError: false });
-          setTimeout(() => {
-            window.location.href = "/login";
-          }, 5000);
+          window.location.href = "/login";
         })
         .catch(err => {
-          console.log({ err });
           setState({ loggedOut: false, logOutError: true });
         });
     }

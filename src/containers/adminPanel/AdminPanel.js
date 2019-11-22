@@ -21,7 +21,6 @@ import cssClasses from "./AdminPanel.module.css";
 class AdminPanel extends Component {
   constructor(props) {
     super(props);
-    console.log({ history: props.history, match: props.match });
     this.state = {
       tableRows: [],
       loading: true,
@@ -49,13 +48,10 @@ class AdminPanel extends Component {
   };
 
   sendSMS = () => {
-    console.log("sendSMS", this.state.phoneNumber);
-
     if (this.state.phoneNumber.length > 0) {
       this.setState({ sendingSms: true, error: null }, () => {
         sendSms(this.state.phoneNumber)
           .then(res => {
-            console.log(res);
             const { id, success, message } = res.data.sendSms;
             if (success) {
               this.setState({

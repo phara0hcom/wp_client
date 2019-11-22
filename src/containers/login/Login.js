@@ -19,10 +19,11 @@ import cssClasses from "./Login.module.css";
 
 const Login = props => {
   const dispatch = useDispatch();
+
   const { id } = useParams();
   const { pathname } = useLocation();
-  console.log({ pathname, id });
   const isSignUp = id && pathname.includes("/signUp/");
+
   const [state, setState] = useState({
     email: "",
     password: "",
