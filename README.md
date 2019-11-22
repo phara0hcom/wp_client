@@ -1,5 +1,15 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+
+### `npm install`
+
+To install all the packages
+
+### `npm start`
+
+To run it locally, it should work since the API I made is open and since you're on localhost you won't have any issues with cross domain calls.
+
 ## Available Scripts
 
 In the project directory, you can run:

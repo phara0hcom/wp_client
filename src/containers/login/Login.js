@@ -1,19 +1,32 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { connect, useDispatch } from "react-redux";
+import { Redirect, useParams, useLocation } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import { Button } from "@material-ui/core";
+
+import * as actionTypes from "../../store/actions/actionTypes";
+import { loginUser } from "../../store/actions/login";
+import { signUp } from "../../api/mutations";
 
 import cssClasses from "./Login.module.css";
-import { Button } from "@material-ui/core";
-import { loginUser } from "../../store/actions/login";
 
 const Login = props => {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const { pathname } = useLocation();
+  console.log({ pathname, id });
+  const isSignUp = id && pathname.includes("/signUp/");
   const [state, setState] = useState({
     email: "",
-    password: ""
+    password: "",
+    dialogOpen: false
   });
 
   const changeInput = input => event => {
@@ -25,7 +38,35 @@ const Login = props => {
 
   const submitLogin = event => {
     event.preventDefault();
-    props.onLoginUser(state.email, state.password);
+    if (isSignUp) {
+      dispatch({ type: actionTypes.LOGIN_PROCESSING });
+      signUp(id, state.email, state.password)
+        .then(res => {
+          const { message, success } = res.data.signUp;
+          if (success) {
+            setState({
+              dialogOpen: true
+            });
+          } else {
+            dispatch({
+              type: actionTypes.LOGIN_NOT_PROCESSING,
+              error: `${message}`
+            });
+          }
+        })
+        .catch(err => {
+          dispatch({
+            type: actionTypes.LOGIN_NOT_PROCESSING,
+            error: `${err}`
+          });
+        });
+    } else {
+      props.onLoginUser(state.email, state.password);
+    }
+  };
+
+  const closeDialog = () => {
+    window.location.href = "/login";
   };
 
   if (props.isAuthorized) {
@@ -41,7 +82,9 @@ const Login = props => {
           alignItems="flex-start"
         >
           <Typography variant="h5" component="h3">
-            Please login.
+            {isSignUp
+              ? `Please enter your details to sign-up`
+              : `Please login.`}
           </Typography>
           <div className="error">{props.error}</div>
           <form className={cssClasses.inputs} onSubmit={submitLogin}>
@@ -78,10 +121,31 @@ const Login = props => {
             type="submit"
             onClick={submitLogin}
           >
-            {props.logInProcessing ? <div className="localLoading" /> : `Login`}
+            {props.logInProcessing ? (
+              <div className="localLoading" />
+            ) : isSignUp ? (
+              `Sign up`
+            ) : (
+              `Login`
+            )}
           </Button>
         </Grid>
       </Paper>
+      <Dialog
+        open={state.dialogOpen}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Account created</DialogTitle>
+        <DialogContent>
+          <p>Please login.</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDialog} color="primary">
+            Login
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

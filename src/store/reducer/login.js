@@ -21,6 +21,12 @@ const startLogInCall = state => ({
   error: null
 });
 
+const endLogInCall = (state, error) => ({
+  ...state,
+  logInProcessing: false,
+  error
+});
+
 const setLoginError = (state, error) => ({
   ...state,
   error,
@@ -43,6 +49,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.LOGIN_PROCESSING:
       return startLogInCall(state);
+
+    case actionTypes.LOGIN_NOT_PROCESSING:
+      return endLogInCall(state, action.error);
 
     case actionTypes.LOGIN_ERROR:
       return setLoginError(state, action.error);

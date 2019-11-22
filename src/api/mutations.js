@@ -59,7 +59,7 @@ export const deleteUser = uid => {
 };
 
 /**
- * 
+ *
  * @param {String} uid unique user ID
  * @param {UserObject} data kays and values to edit
  *
@@ -83,5 +83,34 @@ export const editUser = (uid, data) => {
       }
     `,
     variables: { uid, data }
+  });
+};
+
+export const sendSms = phoneNumber => {
+  return client.mutate({
+    mutation: gql`
+      mutation($phoneNumber: String!) {
+        sendSms(phoneNumber: $phoneNumber) {
+          id
+          message
+          success
+        }
+      }
+    `,
+    variables: { phoneNumber }
+  });
+};
+
+export const signUp = (id, email, password) => {
+  return client.mutate({
+    mutation: gql`
+      mutation($id: ID!, $password: String!, $email: String!) {
+        signUp(id: $id, password: $password, email: $email) {
+          message
+          success
+        }
+      }
+    `,
+    variables: { id, password, email }
   });
 };

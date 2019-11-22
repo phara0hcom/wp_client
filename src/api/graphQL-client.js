@@ -8,6 +8,9 @@ const link = new HttpLink({
   uri: "https://us-central1-wealthpark-te-test.cloudfunctions.net/api"
 });
 
+/**
+ * setup of the Client
+ */
 const client = new ApolloClient({
   // Provide required constructor fields
   cache: cache,

@@ -27,7 +27,7 @@ class App extends Component {
             <div className="loading" />
           ) : (
             <Switch>
-              <Route path="/login">
+              <Route path={["/login", "/signUp/:id"]}>
                 <Login />
               </Route>
               {!this.props.isAuthorized ? (

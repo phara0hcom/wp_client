@@ -18,9 +18,10 @@ const AdminRoutes = () => {
           path={["/adminPanel/edit/:uid", "/adminPanel/addUser"]}
           render={routProps => <UserEditor {...routProps} />}
         />
-        <Route path="/adminPanel">
-          <AdminPanel />
-        </Route>
+        <Route
+          path="/adminPanel"
+          render={routProps => <AdminPanel {...routProps} />}
+        />
         <Redirect to="/adminPanel" />
       </Switch>
     </>

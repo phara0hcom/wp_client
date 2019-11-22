@@ -5,3 +5,19 @@
 .buttons:not(:last-child) {
   margin-right: 1rem !important;
 }
+
+.smsBox {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: baseline;
+}
+
+.smsBox > div:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.smsLink {
+  background-color: azure;
+  padding: 5px;
+  flex: 1 1 auto;
+}

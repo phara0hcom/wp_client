@@ -18,6 +18,10 @@ body {
   color: #000;
 }
 
+.flexGrow {
+  flex: 1 1 auto;
+}
+
 /* Absolute Center Spinner */
 .localLoading {
   position: relative;
