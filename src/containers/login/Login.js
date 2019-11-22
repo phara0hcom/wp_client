@@ -112,24 +112,23 @@ const Login = props => {
               onChange={changeInput("password")}
               margin="normal"
             />
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={props.logInProcessing}
+              className={cssClasses.button}
+              type="submit"
+              onClick={submitLogin}
+            >
+              {props.logInProcessing ? (
+                <div className="localLoading" />
+              ) : isSignUp ? (
+                `Sign up`
+              ) : (
+                `Login`
+              )}
+            </Button>
           </form>
-
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={props.logInProcessing}
-            className={cssClasses.button}
-            type="submit"
-            onClick={submitLogin}
-          >
-            {props.logInProcessing ? (
-              <div className="localLoading" />
-            ) : isSignUp ? (
-              `Sign up`
-            ) : (
-              `Login`
-            )}
-          </Button>
         </Grid>
       </Paper>
       <Dialog

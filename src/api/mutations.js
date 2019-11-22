@@ -30,7 +30,7 @@ export const addUser = user => {
             type
           }
           message
-          success
+          success!
         }
       }
     `,
@@ -50,7 +50,7 @@ export const deleteUser = uid => {
       mutation($uid: ID!) {
         deleteUser(uid: $uid) {
           message
-          success
+          success!
         }
       }
     `,
@@ -78,14 +78,19 @@ export const editUser = (uid, data) => {
             type
           }
           message
-          success
+          success!
         }
       }
     `,
     variables: { uid, data }
   });
 };
-
+/**
+ *
+ * @param {String} phoneNumber PhoneNumber string
+ *
+ * @returns {Promise}
+ */
 export const sendSms = phoneNumber => {
   return client.mutate({
     mutation: gql`
@@ -93,7 +98,7 @@ export const sendSms = phoneNumber => {
         sendSms(phoneNumber: $phoneNumber) {
           id
           message
-          success
+          success!
         }
       }
     `,
@@ -101,13 +106,21 @@ export const sendSms = phoneNumber => {
   });
 };
 
+/**
+ * /signUp/:id route on signup
+ * @param {String} id Id that is in the url
+ * @param {String} email
+ * @param {String} password
+ *
+ * * @returns {Promise}
+ */
 export const signUp = (id, email, password) => {
   return client.mutate({
     mutation: gql`
       mutation($id: ID!, $password: String!, $email: String!) {
         signUp(id: $id, password: $password, email: $email) {
           message
-          success
+          success!
         }
       }
     `,
